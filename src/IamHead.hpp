@@ -29,7 +29,7 @@ protected:
     void onItemClicked(CCObject*  sender);
     //void onSameDual(CCObject*  sender);
     void onMoreSettings(CCObject *sender);
-    void onClose(CCObject *sender) override;
+    void onClose(CCObject *sender);
 public:
     static ColorItemPopup* create();
 };
@@ -37,7 +37,7 @@ public:
 class ColorOptionsPopup : public Popup<>{
 protected:
     bool setup() override;
-    void addTextToggler(CCNode* parent, const char* text, const char* desc, CCPoint p, int tag, cocos2d::SEL_MenuHandler callback, bool yes, bool title);
+    void addTextToggler(CCNode* parent, const char* text, const char* desc, CCPoint p, int tag, cocos2d::SEL_MenuHandler callback, bool yes, bool down);
     void onActivateThisMod(CCObject *sender);
     void onRyder(CCObject *sender);
     void onCommon(CCObject *sender);
@@ -65,7 +65,7 @@ protected:
     void onPickColor(CCObject* sender);
     void onSwitchChromaType(CCObject* sender);   
     void onApplyCommon(CCObject* sender);
-    void onClose(CCObject *sender) override;
+    void onClose(CCObject *sender);
 public:
     struct ColorData data;                 // the color setup struct.
     static ColorSetupPopup * create(int);

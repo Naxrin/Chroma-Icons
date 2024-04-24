@@ -337,7 +337,7 @@ bool ColorSetupPopup::setup() {
         10
     );
     
-
+    //commonMenu->getChildByTag(10)->
     auto confirmImg = ButtonSprite::create("Apply", "goldFont.fnt", "GJ_button_01.png", 0.8);
     confirmImg->setScale(0.8);
     auto confirmBtn = CCMenuItemSpriteExtra::create(confirmImg, this, menu_selector(ColorSetupPopup::onClose));

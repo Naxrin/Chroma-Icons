@@ -3,7 +3,7 @@
 using namespace geode::prelude;
 
 // slightly different with the on for ColorSetupPopup
-void ColorOptionsPopup::addTextToggler(CCNode* parent, const char* text, const char* desc, CCPoint p, int tag, cocos2d::SEL_MenuHandler callback, bool yes, bool title = false){
+void ColorOptionsPopup::addTextToggler(CCNode* parent, const char* text, const char* desc, CCPoint p, int tag, cocos2d::SEL_MenuHandler callback, bool yes, bool down=false){
     auto menu = CCMenu::create();
     menu->setPosition(p);
     menu->setContentSize(CCSize(360.f, 40.f));
@@ -28,7 +28,7 @@ void ColorOptionsPopup::addTextToggler(CCNode* parent, const char* text, const c
     hint->setScale(0.7);
     hint->setWidth(380.f);
     hint->setAnchorPoint(CCPoint(0.f, 0.5));
-    hint->setPosition(CCPoint(0.f, 7.f-5.f*title));
+    hint->setPosition(CCPoint(0.f, 7.f-5*down));
     hint->setColor({255, 255, 0});
     menu->addChild(hint);
 
@@ -43,6 +43,9 @@ bool ColorOptionsPopup::setup(){
     // layer
     auto ml = static_cast<CCNode*>(this->getChildren()->objectAtIndex(0));
     ml->setID("main-layer");
+
+    //auto scroll = ScrollLayer::create(CCRect{20.f, 20.f, 380.f, 240.f});
+    //ml->addChild(scroll);
 
     addTextToggler(ml,
         "Switch",
@@ -64,12 +67,13 @@ bool ColorOptionsPopup::setup(){
     );
     addTextToggler(ml,
         "Seperate Riders",
-        "The cube rider of ship/ufo/jetpack will follow the color setup when it walks itself.",
+        "The cube rider of ship/ufo/jetpack will follow the cube's own color setup.",
         CCPoint(winSize.width/2-190.f, winSize.height/2 - 30.f),
         3,
         menu_selector(ColorOptionsPopup::onRyder),
         Mod::get()->getSavedValue<bool>("rider")
     );
+    /*
     addTextToggler(ml,
         "Editor Test",
         "Apply to Editor Test Run. Coming Soon~~~",
@@ -78,9 +82,10 @@ bool ColorOptionsPopup::setup(){
         menu_selector(ColorOptionsPopup::onEditor),
         Mod::get()->getSavedValue<bool>("editor", true)
     );
+    */
     auto speedMenu = CCMenu::create();
     //speedMenu->ignoreAnchorPointForPosition(false);
-    speedMenu->setPosition(CCPoint(winSize.width/2 -190.f, winSize.height/2-120.f));
+    speedMenu->setPosition(CCPoint(winSize.width/2 -190.f, winSize.height/2-130.f));
     speedMenu->setContentSize(CCSize(380.f, 50.f));
     speedMenu->setID("speed-menu");
 
@@ -89,7 +94,7 @@ bool ColorOptionsPopup::setup(){
     speedLabel->setScale(0.5);
     speedMenu->addChild(speedLabel);
 
-    auto inputer = TextInput::create(70.f, "1.0");
+    auto inputer = TextInput::create(90.f, "1.0");
     inputer->setPosition(CCPoint(85.f, 30.f));
     inputer->setScale(0.8);
     inputer->setFilter("1234567890.");
@@ -103,6 +108,9 @@ bool ColorOptionsPopup::setup(){
     slider->setID("slider");
     speedMenu->addChild(slider);
 
+    auto value = Mod::get()->getSavedValue<float>("speed", 1.0);
+    slider->setValue(value/5 < 1 ? value/5 : 1);
+    inputer->setString(cocos2d::CCString::createWithFormat("%.2f", static_cast<float>(value * 5))->getCString());
     speedMenu->updateLayout();
     ml->addChild(speedMenu);
 

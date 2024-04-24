@@ -181,9 +181,9 @@ class $modify(PlayLayer) {
         chromaPlayer(p, *(chroma + 11*p2), phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
         chromaPlayerSecondary(p, *(chroma + 1 + 11*p2), phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));   
         chromaProcess(p->m_iconGlow,*(chroma + 2 + 11*p2), phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
+        chromaProcess(p->m_vehicleGlow, *(chroma + 2 + 11*p2), phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
         // player with vehicle  
         if (rider && (pmode[p2] == 1 || pmode[p2] == 3 || pmode[p2] == 8)){
-            chromaProcess(p->m_vehicleGlow, *(chroma + 2 + 11*p2), phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
             chromaProcess(p->m_iconSprite, *(chroma + 3 + 11*p2), phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
             chromaProcess(p->m_iconSpriteSecondary, *(chroma + 4 + 11*p2), phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));
             chromaProcess(p->m_iconGlow, *(chroma + 5 + 11*p2), phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
@@ -192,57 +192,7 @@ class $modify(PlayLayer) {
         swt = GameManager::get()->getGameVariable("6969");
         chromaProcess(p->m_waveTrail, *(chroma + 6 + 11*p2), phase, p2, gm->colorForIdx((p2 && !swt) || (!p2 && swt) ? gm->getPlayerColor2() : gm->getPlayerColor()));
         chromaProcess(p->m_regularTrail, *(chroma + 5 + 11*p2), phase, p2, gm->colorForIdx((p2 && !swt) || (!p2 && swt) ? gm->getPlayerColor2() : gm->getPlayerColor()));
-        /*
-        switch (pmode[p2]){
-        // ship and ufo
-        case 2:
-            // vehicle
-            chromaProcess(p->m_vehicleSprite, chroma[11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            chromaProcess(p->m_vehicleSpriteSecondary, chroma[1 + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));
-            chromaProcess(p->m_vehicleGlow, chroma[2 + 11*p2], phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
-            // rider
-            chromaProcess(p->m_iconSprite, chroma[3*rider + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            chromaProcess(p->m_iconSpriteSecondary, chroma[1 + 3*rider + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));
-            chromaProcess(p->m_iconGlow, chroma[2 + 3*rider + 11*p2], phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
-            break;
-        case 3:
-            // vehicle
-            chromaProcess(p->m_vehicleSprite, chroma[11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            chromaProcess(p->m_vehicleSpriteSecondary, chroma[1 + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));
-            chromaProcess(p->m_vehicleGlow, chroma[2 + 11*p2], phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
-            // rider
-            chromaProcess(p->m_iconSprite, chroma[3*rider + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            chromaProcess(p->m_iconSpriteSecondary, chroma[1 + 3*rider + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));
-            chromaProcess(p->m_iconGlow, chroma[2 + 3*rider + 11*p2], phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
-            break;
-        // robot
-        case 5:
-            chromaProcess(p->m_robotSprite, chroma[11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            //chromaProcess(p->m_iconSprite, chroma[3 + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            chromaProcess(p->m_iconSpriteSecondary, chroma[1 + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));
-            chromaProcess(p->m_iconGlow, chroma[2 + 11*p2], phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
-            break;
-        // spider
-        case 6:
-            chromaProcess(p->m_spiderSprite, chroma[11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            //chromaProcess(p->m_iconSprite, chroma[3 + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            chromaProcess(p->m_iconSpriteSecondary, chroma[1 + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));
-            chromaProcess(p->m_iconGlow, chroma[2 + 11*p2], phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
-            break;
-        // wave
-        case 4:
-            swt = GameManager::get()->getGameVariable("6969");
-            chromaProcess(p->m_waveTrail, chroma[6 + 11*p2], phase, p2, gm->colorForIdx((p2 && !swt) || (!p2 && swt) ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            chromaProcess(p->m_iconSprite, chroma[11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            chromaProcess(p->m_iconSpriteSecondary, chroma[1 + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));
-            chromaProcess(p->m_iconGlow, chroma[2 + 11*p2], phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
-            break;
-        // cube and ball and dart and swing
-        default:
-            chromaProcess(p->m_iconSprite, chroma[11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor2() : gm->getPlayerColor()));
-            chromaProcess(p->m_iconSpriteSecondary, chroma[1 + 11*p2], phase, p2, gm->colorForIdx(p2 ? gm->getPlayerColor() : gm->getPlayerColor2()));
-            chromaProcess(p->m_iconGlow, chroma[2 + 11*p2], phase, p2, gm->colorForIdx(gm->getPlayerGlowColor()));
-        }*/
+
     }
     // yes detect current gamemode
     int detectGamemode(PlayerObject *p){
