@@ -139,7 +139,6 @@ class $modify(PlayLayer) {
         std::string player = (p2 && !Mod::get()->getSavedValue<bool>("same-dual")) ? "P2" : "P1";
 
         // Step 1: Update plan to get settings
-        log::debug("mode={}", pmode[p2]);
         pcommon[0] = Mod::get()->getSavedValue<int>("P1-common", -1);
         pcommon[1] = Mod::get()->getSavedValue<int>("P2-common", -1);
         
