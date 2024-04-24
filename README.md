@@ -1,4 +1,4 @@
-![Image](naxrin.rgb_icons/title.png)  
+![Image]([naxrin.rgb_icons/title.png](https://github.com/Naxrin/Chroma-Icons/blob/main/title.png))  
 # Chroma Icons
 ### aka Icon Effect by Mega Hack v7 
 After nearly a month's effort, thousands of test, The **Icon Effect** is finally ported to Geode for GD2.2!  
