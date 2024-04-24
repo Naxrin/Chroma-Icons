@@ -29,7 +29,7 @@ protected:
     void onItemClicked(CCObject*  sender);
     //void onSameDual(CCObject*  sender);
     void onMoreSettings(CCObject *sender);
-    void onClose(CCObject *sender);
+    void onClose(CCObject *sender) override;
 public:
     static ColorItemPopup* create();
 };
@@ -65,7 +65,7 @@ protected:
     void onPickColor(CCObject* sender);
     void onSwitchChromaType(CCObject* sender);   
     void onApplyCommon(CCObject* sender);
-    void onClose(CCObject *sender);
+    void onClose(CCObject *sender) override;
 public:
     struct ColorData data;                 // the color setup struct.
     static ColorSetupPopup * create(int);
