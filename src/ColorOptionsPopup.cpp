@@ -73,6 +73,7 @@ bool ColorOptionsPopup::setup(){
         menu_selector(ColorOptionsPopup::onRyder),
         Mod::get()->getSavedValue<bool>("rider")
     );
+
     /*
     addTextToggler(ml,
         "Editor Test",
@@ -85,7 +86,7 @@ bool ColorOptionsPopup::setup(){
     */
     auto speedMenu = CCMenu::create();
     //speedMenu->ignoreAnchorPointForPosition(false);
-    speedMenu->setPosition(CCPoint(winSize.width/2 -190.f, winSize.height/2-130.f));
+    speedMenu->setPosition(CCPoint(winSize.width/2 -190.f, winSize.height/2-120.f));
     speedMenu->setContentSize(CCSize(380.f, 50.f));
     speedMenu->setID("speed-menu");
 
@@ -95,7 +96,7 @@ bool ColorOptionsPopup::setup(){
     speedMenu->addChild(speedLabel);
 
     auto inputer = TextInput::create(90.f, "1.0");
-    inputer->setPosition(CCPoint(85.f, 30.f));
+    inputer->setPosition(CCPoint(105.f, 30.f));
     inputer->setScale(0.8);
     inputer->setFilter("1234567890.");
     inputer->setCallback([this] (auto input) { this->onSpeedTextChanged(input); });
@@ -110,7 +111,7 @@ bool ColorOptionsPopup::setup(){
 
     auto value = Mod::get()->getSavedValue<float>("speed", 1.0);
     slider->setValue(value/5 < 1 ? value/5 : 1);
-    inputer->setString(cocos2d::CCString::createWithFormat("%.2f", static_cast<float>(value * 5))->getCString());
+    inputer->setString(cocos2d::CCString::createWithFormat("%.2f", static_cast<float>(value))->getCString());
     speedMenu->updateLayout();
     ml->addChild(speedMenu);
 
@@ -128,6 +129,7 @@ void ColorOptionsPopup::onCommon(CCObject *sender){
 void ColorOptionsPopup::onRyder(CCObject *sender){
     Mod::get()->setSavedValue("rider", !static_cast<CCMenuItemToggler*>(sender)->isToggled());
 }
+
 
 void ColorOptionsPopup::onEditor(CCObject *sender){
     Mod::get()->setSavedValue("editor", !static_cast<CCMenuItemToggler*>(sender)->isToggled());

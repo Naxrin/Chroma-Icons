@@ -72,7 +72,7 @@ bool ColorItemPopup::setup() {
         partiBtn->setTag(14*player + 10);
         catagory->addChild(partiBtn);
 
-        auto partiFont = CCLabelBMFont::create("Ragular Trail", "bigFont.fnt", 120.f, CCTextAlignment::kCCTextAlignmentLeft);
+        auto partiFont = CCLabelBMFont::create("Regular Trail", "bigFont.fnt", 120.f, CCTextAlignment::kCCTextAlignmentLeft);
         partiFont->setAnchorPoint(CCPoint(0.f, 0.5));
         partiFont->setScale(0.5);
         partiFont->setPosition(CCPoint(270.f, 25.f));
