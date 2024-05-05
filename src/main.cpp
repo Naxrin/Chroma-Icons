@@ -90,46 +90,14 @@ cocos2d::_ccColor3B getRainbow(float &phase, float offset, float saturation){
 cocos2d::_ccColor3B getGradient(float &phase, float offset, bool smooth, ccColor3B c1, ccColor3B c2){
     float t = fmod(phase + offset, 360);
 
-    //float r1, g1, b1, r2, g2, b2, r, g, b;
-    //float h1, s1, v1, h2, s2, v2, h, s, v;
-
-    //r1 = c1.r / 255; g1 = c1.g / 255; b1 = c1.b / 255;
-    //r2 = c2.r / 255; g2 = c2.g / 255; b1 = c2.b / 255;
-
-    //RGBtoHSV(r1, g1, b1, h1, s1, v1);
-    //RGBtoHSV(r2, g2, b2, h2, s2, v2);
-
-
-    /*
-    float y;
-    smooth = false;
-    if (smooth)
-        // smooth
-        y = (t>270)&&(t<90) ? (pow(((t-180)/90 - 1), 2) - 1) : (1 - pow((t/90 - 1), 2));  // wtf
-    else{
-        y = fabs(t/90-2)-1;
-    }
-    */
     float y = fabs(t-180)/180;
 
-    //h = h1*(1-y) + h2*y;
-    //s = s1*(1-y) + s2*y;
-    //v = v1*(1-y) + v2*y;
-    //RGBtoHSV(r1, g1, b1, h, s, v);
-    //HSVtoRGB(r, g, b, h, s, v);
-
-    //log::debug("rgb  {}  {}  {}", r, g, b);
-    //log::debug("hsv  {}  {}  {}", h, s, v);
-
     cocos2d::_ccColor3B out;
-
-    //out.r = r * 255;
-    //out.g = g * 255;
-    //out.b = b * 255;
 
     out.r = c1.r*(1-y) + c2.r*y;
     out.g = c1.g*(1-y) + c2.g*y;
     out.b = c1.b*(1-y) + c2.b*y;
+	
     return out;
 }
 
@@ -141,7 +109,6 @@ int pmode[2] = {-1, -1};
 int pcommon[2] = {-1, -1};
 
 class $modify(PlayLayer) {
-
     bool init(GJGameLevel *level, bool useRep, bool empty){
         if (!PlayLayer::init(level, useRep, empty))
             return false;
@@ -189,7 +156,6 @@ class $modify(PlayLayer) {
         std::string player = (p2 && !Mod::get()->getSavedValue<bool>("same-dual")) ? "P2" : "P1";
 
         // Step 1: Update plan to get settings
-        //log::debug("mode={}", pmode[p2]);
         pcommon[0] = Mod::get()->getSavedValue<int>("P1-common", -1);
         pcommon[1] = Mod::get()->getSavedValue<int>("P2-common", -1);
         
@@ -222,12 +188,6 @@ class $modify(PlayLayer) {
             defaultColorSetup
         )); 
         
-        // debug
-        if (refresh){
-            log::debug("#1  {}  {}  {}", chroma[0].gradient1.r, chroma[0].gradient1.g, chroma[0].gradient1.b);
-            log::debug("#2  {}  {}  {}", chroma[0].gradient2.r, chroma[0].gradient2.g, chroma[0].gradient2.b);
-            refresh = false;
-        }
         // Step 3: Apply the current effects and draw the icon
         bool swt;
         bool rider = Mod::get()->getSavedValue<bool>("rider", false);
