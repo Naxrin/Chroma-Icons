@@ -451,7 +451,7 @@ void ColorSetupPopup::onSwitchChromaType(CCObject *sender){
 
 void ColorSetupPopup::onPickColor(CCObject *sender){
     // HOW TO SET COLOR?
-    auto color = static_cast<CCMenuItemSpriteExtra*>(sender)->getColor();
+    auto color = static_cast<CCSprite*>(static_cast<CCMenuItemSpriteExtra*>(sender)->getChildren()->objectAtIndex(0))->getColor();
     auto popup = ColorPickPopup::create(color);
     popup->setColorTarget(static_cast<CCSprite*>(static_cast<CCNode*>(sender)->getChildren()->objectAtIndex(0)));
     popup->show();
