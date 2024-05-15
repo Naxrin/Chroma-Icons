@@ -27,7 +27,6 @@ class ColorItemPopup : public Popup<>{
 protected:
     bool setup() override;
     void onItemClicked(CCObject*  sender);
-    //void onSameDual(CCObject*  sender);
     void onMoreSettings(CCObject *sender);
     void onClose(CCObject *sender);
 public:
@@ -37,11 +36,15 @@ public:
 class ColorOptionsPopup : public Popup<>{
 protected:
     bool setup() override;
-    void addTextToggler(CCNode* parent, const char* text, const char* desc, CCPoint p, int tag, cocos2d::SEL_MenuHandler callback, bool yes, bool down);
+    void addTextToggler(CCNode* parent, const char* text, const char* desc, CCPoint p, int tag, cocos2d::SEL_MenuHandler callback, bool yes, int down);
+    //void addPhaseTogglers(CCNode* parent, const char* text, CCPoint p, int tag, const char *item);
     void onActivateThisMod(CCObject *sender);
     void onRyder(CCObject *sender);
     void onCommon(CCObject *sender);
     void onEditor(CCObject *sender);
+    void onSepDual(CCObject *sender);
+    void onSepSecond(CCObject *sender);
+    void onSepGlow(CCObject *sender);
     void onSpeedTextChanged(const std::string & input);
     void onDragSlider(CCObject *sender);
 public:
@@ -59,25 +62,18 @@ protected:
     bool setup() override;
     void initialSettings();
     void addTextToggler(CCNode* parent, const char* text, CCPoint p, cocos2d::SEL_MenuHandler callback, int tag);
+    void addColorSet(CCNode* parent, const char* text, CCPoint p, int tag);
     void setSpeedMenu(float value);
     void onSwitchChannel(CCObject* sender);
     void onSwitchMode(CCObject* sender);
     void onPickColor(CCObject* sender);
+    void onCopyColor(CCObject* sender);
+    void onPasteColor(CCObject* sender);
     void onSwitchChromaType(CCObject* sender);   
     void onApplyCommon(CCObject* sender);
+    void onDesc(CCObject *sender);
     void onClose(CCObject *sender);
 public:
     struct ColorData data;                 // the color setup struct.
     static ColorSetupPopup * create(int);
 };
-/*
-class MyColorPickPopup : public ColorPickPopup{
-protected:
-    bool init(ccColor3B color, ColorSetupPopup* summoner);
-    ColorSetupPopup* summoner;
-    void colorValueChanged(ccColor3B color);
-};
-
-public:
-    static MyColorPickPopup* create(ccColor3B color, ColorSetupPopup* summoner);
-};*/

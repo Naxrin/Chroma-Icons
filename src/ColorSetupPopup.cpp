@@ -1,5 +1,5 @@
 #include "IamHead.hpp"
-
+//#include <>
 using namespace geode::prelude;
 
 //player names:: P1/P2
@@ -10,8 +10,10 @@ std::string channels[3] = {"Main", "Secondary", "Glow"};
 std::string gamemodetag[14] = {
     "cube", "ship", "ball", "ufo", "wave", "robot", "spider", "swing", "jetpack",
     "trail", "tail", "dashfire", "teleport", "particles"};
-// wtf
-std::string yesImNoob = "-";
+
+//clipboard
+ccColor3B clipColor = ccColor3B(0, 0, 0);
+bool canPaste = false;
 
 matjson::Array Color2Array(ccColor3B color){
     matjson::Array array;
@@ -84,6 +86,45 @@ void ColorSetupPopup::addTextToggler(CCNode* parent, const char* text, CCPoint p
     menu->setContentSize(CCSize(0.4*width + 25.f, 20.f));
     parent->addChild(menu);
 
+    menu->updateLayout();
+}
+
+void ColorSetupPopup::addColorSet(CCNode* parent, const char* text, CCPoint p, int tag){
+    auto menu = CCMenu::create();
+
+    auto label = CCLabelBMFont::create(text, "bigFont.fnt", 200.f, CCTextAlignment::kCCTextAlignmentLeft);
+    label->setAnchorPoint(CCPoint(0.f, 0.5));
+    label->setScale(0.4);
+    label->setPosition(CCPoint(0.f, 35.f));
+    label->setID("label");
+    menu->addChild(label);
+
+    auto colorImg = CCSprite::createWithSpriteFrameName("GJ_colorBtn_001.png");
+    colorImg->setScale(0.6);
+    colorImg->setID("sprite");
+    auto colorBtn = CCMenuItemSpriteExtra::create(colorImg, this, menu_selector(ColorSetupPopup::onPickColor));
+    colorBtn->setPosition(CCPoint(10.f, 10.f));
+    colorBtn->setID("button");
+    menu->addChild(colorBtn);
+
+    auto copyImg = CCSprite::createWithSpriteFrameName("GJ_copyBtn_001.png");
+    copyImg->setScale(0.5);
+    auto copyBtn = CCMenuItemSpriteExtra::create(copyImg, this, menu_selector(ColorSetupPopup::onCopyColor));
+    copyBtn->setPosition(CCPoint(40.f, 10.f));
+    copyBtn->setID("copy");
+    menu->addChild(copyBtn);
+
+    auto pasteImg = CCSprite::createWithSpriteFrameName("GJ_pasteBtn_001.png");
+    pasteImg->setScale(0.5);
+    auto pasteBtn = CCMenuItemSpriteExtra::create(pasteImg, this, menu_selector(ColorSetupPopup::onPasteColor));
+    pasteBtn->setPosition(CCPoint(70.f, 10.f));
+    pasteBtn->setID("paste");
+    menu->addChild(pasteBtn);
+
+    menu->setTag(tag);
+    menu->setPosition(p);
+    menu->setContentSize(CCSize(60.f, 50.f));
+    parent->addChild(menu);
     menu->updateLayout();
 }
 
@@ -197,21 +238,12 @@ bool ColorSetupPopup::setup() {
     defaultPart->setContentSize(CCSize(240.f, 170.f));
     setupMenu->addChild(defaultPart);
 
-    auto defaultFont1 = CCLabelBMFont::create("No any effect", "bigFont.fnt", 120.f, CCTextAlignment::kCCTextAlignmentLeft);
-    defaultFont1->setAnchorPoint(CCPoint(0.f, 0.5));
-    defaultFont1->setScale(0.4);
-    defaultFont1->setPosition(CCPoint(5.f, 130.f));
-    defaultFont1->setWidth(230.f);
-    //defaultFont1->setTag(0);
-    defaultPart->addChild(defaultFont1); 
-
-    auto defaultFont2 = CCLabelBMFont::create("Isn't it cool enough?", "bigFont.fnt", 120.f, CCTextAlignment::kCCTextAlignmentLeft);
-    defaultFont2->setAnchorPoint(CCPoint(0.f, 0.5));
-    defaultFont2->setScale(0.4);
-    defaultFont2->setPosition(CCPoint(5.f, 110.f));
-    defaultFont2->setWidth(230.f);
-    //defaultFont2->setTag(0);
-    defaultPart->addChild(defaultFont2); 
+    auto defaultFont = CCLabelBMFont::create("No any effect\nIsn't it cool enough?", "bigFont.fnt", 200.f, CCTextAlignment::kCCTextAlignmentLeft);
+    defaultFont->setAnchorPoint(CCPoint(0.f, 0.5));
+    defaultFont->setScale(0.4);
+    defaultFont->setPosition(CCPoint(5.f, 130.f));
+    defaultFont->setWidth(230.f);
+    defaultPart->addChild(defaultFont); 
 
     // static
     auto staticPart = CCMenu::create();
@@ -220,21 +252,12 @@ bool ColorSetupPopup::setup() {
     staticPart->setContentSize(CCSize(240.f, 170.f));
     setupMenu->addChild(staticPart);
 
-    auto staticFont = CCLabelBMFont::create("Pick the color here!", "bigFont.fnt", 120.f, CCTextAlignment::kCCTextAlignmentLeft);
-    staticFont->setAnchorPoint(CCPoint(0.f, 0.5));
-    staticFont->setScale(0.4);
-    staticFont->setPosition(CCPoint(35.f, 130.f));
-    staticFont->setWidth(200.f);
-    //staticFont->setTag(1);
-    staticPart->addChild(staticFont);
-
-    auto staticImg = CCSprite::createWithSpriteFrameName("GJ_colorBtn_001.png");
-    staticImg->setScale(0.6);
-    auto staticBtn = CCMenuItemSpriteExtra::create(staticImg, this, menu_selector(ColorSetupPopup::onPickColor));
-    staticBtn->setPosition(CCPoint(20.f, 130.f));
-    staticBtn->setID("static-color");
-    //staticBtn->setTag(1);
-    staticPart->addChild(staticBtn);
+    addColorSet(
+        staticPart,
+        "Pick your fav color!",
+        CCPoint(10.f, 100.f),
+        0
+    );
 
     // chromatic
     auto chromaPart = CCMenu::create();
@@ -248,7 +271,6 @@ bool ColorSetupPopup::setup() {
     chromaticFont->setScale(0.4);
     chromaticFont->setPosition(CCPoint(5.f, 130.f));
     chromaticFont->setWidth(230.f),
-    //chromaticFont->setTag(2);
     chromaPart->addChild(chromaticFont);
 
     auto chromaticType = CCLabelBMFont::create("Select Type", "goldFont.fnt", 120.f, CCTextAlignment::kCCTextAlignmentLeft);
@@ -256,7 +278,6 @@ bool ColorSetupPopup::setup() {
     chromaticType->setScale(0.5);
     chromaticType->setPosition(CCPoint(5.f, 100.f));
     chromaticType->setWidth(230.f),
-    //chromaticFont->setTag(2);
     chromaPart->addChild(chromaticType);
 
     addTextToggler(
@@ -289,38 +310,19 @@ bool ColorSetupPopup::setup() {
     //gradientFont->setTag(3);
     gradientPart->addChild(gradientFont);
 
-    auto gradientImg1 = CCSprite::createWithSpriteFrameName("GJ_colorBtn_001.png");
-    gradientImg1->setScale(0.6);
-    auto gradientBtn1 = CCMenuItemSpriteExtra::create(gradientImg1, this, menu_selector(ColorSetupPopup::onPickColor));
-    gradientBtn1->setPosition(CCPoint(20.f, 100.f));
-    gradientBtn1->setID("gradient-color-1");
-    //gradientBtn1->setTag(3);
-    gradientPart->addChild(gradientBtn1);
+    addColorSet(
+        gradientPart,
+        "Gradient Color 1",
+        CCPoint(10.f, 70.f),
+        1
+    );
 
-    auto gradientFont1 = CCLabelBMFont::create("Gradient Color 1", "bigFont.fnt", 120.f, CCTextAlignment::kCCTextAlignmentLeft);
-    gradientFont1->setAnchorPoint(CCPoint(0.f, 0.5));
-    gradientFont1->setScale(0.4);
-    gradientFont1->setPosition(CCPoint(35.f, 100.f));
-    gradientFont1->setWidth(200.f);
-    //gradientFont1->setTag(3);
-    gradientPart->addChild(gradientFont1);
-
-    auto gradientImg2 = CCSprite::createWithSpriteFrameName("GJ_colorBtn_001.png");
-    gradientImg2->setScale(0.6);
-    auto gradientBtn2 = CCMenuItemSpriteExtra::create(gradientImg2, this, menu_selector(ColorSetupPopup::onPickColor));
-    gradientBtn2->setPosition(CCPoint(20.f, 70.f));
-    gradientBtn2->setID("gradient-color-2");
-    //gradientBtn2->setTag(3);
-    gradientPart->addChild(gradientBtn2);
-
-    auto gradientFont2 = CCLabelBMFont::create("Gradient Color 2", "bigFont.fnt", 120.f, CCTextAlignment::kCCTextAlignmentLeft);
-    gradientFont2->setAnchorPoint(CCPoint(0.f, 0.5));
-    gradientFont2->setScale(0.4);
-    gradientFont2->setPosition(CCPoint(35.f, 70.f));
-    gradientFont2->setWidth(200.f);
-    //gradientFont2->setTag(3);
-    gradientPart->addChild(gradientFont2);
-
+    addColorSet(
+        gradientPart,
+        "Gradient Color 2",
+        CCPoint(10.f, 20.f),
+        2
+    );
     
     // additional cube menu
     auto commonMenu = CCMenu::create();
@@ -332,12 +334,11 @@ bool ColorSetupPopup::setup() {
     addTextToggler(
         commonMenu,
         "Apply to Common",
-        CCPoint(0.f, 0.f),
+        CCPoint(5.f, 0.f),
         menu_selector(ColorSetupPopup::onApplyCommon),
         10
     );
     
-    //commonMenu->getChildByTag(10)->
     auto confirmImg = ButtonSprite::create("Apply", "goldFont.fnt", "GJ_button_01.png", 0.8);
     confirmImg->setScale(0.8);
     auto confirmBtn = CCMenuItemSpriteExtra::create(confirmImg, this, menu_selector(ColorSetupPopup::onClose));
@@ -346,11 +347,18 @@ bool ColorSetupPopup::setup() {
 
     commonMenu->getChildByTag(10)->setVisible(gamemode < 9); // only gamemode
     static_cast<CCMenuItemToggler*>(commonMenu->getChildByTag(10)->getChildByID("toggler"))->toggle(Mod::get()->getSavedValue<int64_t>(player + "-common") == gamemode);
+
+    // tell the user what does Apply to Common means
+    auto infoImg = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
+    infoImg->setScale(0.5);
+    auto infoBtn = CCMenuItemSpriteExtra::create(infoImg, this, menu_selector(ColorSetupPopup::onDesc));
+    infoBtn->setPosition(CCPoint(0.f, 20.f));
+    commonMenu->addChild(infoBtn);
     commonMenu->updateLayout();
 
     
     // get settings and initialize
-    std::string settingKey = player + yesImNoob + gamemodetag[gamemode] + (gamemode < 9 ? yesImNoob + channels[channel] : "");
+    std::string settingKey = player + "-" + gamemodetag[gamemode] + (gamemode < 9 ? "-" + channels[channel] : "");
     data = from_json(Mod::get()->getSavedValue<matjson::Value>(settingKey, defaultColorSetup));
 
     // initialize
@@ -381,9 +389,9 @@ void ColorSetupPopup::initialSettings(){
     static_cast<CCMenuItemToggler*>(ml->getChildByID("setup-menu")->getChildByID("Chromatic")->getChildByTag(data.type)->getChildByID("toggler"))->toggle(true);
     static_cast<CCMenuItemToggler*>(ml->getChildByID("setup-menu")->getChildByID("Chromatic")->getChildByTag(!data.type)->getChildByID("toggler"))->toggle(false);
     // color thing
-    static_cast<CCSprite*>(ml->getChildByID("setup-menu")->getChildByID("Static")->getChildByID("static-color")->getChildren()->objectAtIndex(0))->setColor(data.color);
-    static_cast<CCSprite*>(ml->getChildByID("setup-menu")->getChildByID("Gradient")->getChildByID("gradient-color-1")->getChildren()->objectAtIndex(0))->setColor(data.gradient1);
-    static_cast<CCSprite*>(ml->getChildByID("setup-menu")->getChildByID("Gradient")->getChildByID("gradient-color-2")->getChildren()->objectAtIndex(0))->setColor(data.gradient2);
+    static_cast<CCSprite*>(ml->getChildByID("setup-menu")->getChildByID("Static")->getChildByTag(0)->getChildByID("button")->getChildByID("sprite"))->setColor(data.color);
+    static_cast<CCSprite*>(ml->getChildByID("setup-menu")->getChildByID("Gradient")->getChildByTag(1)->getChildByID("button")->getChildByID("sprite"))->setColor(data.gradient1);
+    static_cast<CCSprite*>(ml->getChildByID("setup-menu")->getChildByID("Gradient")->getChildByTag(2)->getChildByID("button")->getChildByID("sprite"))->setColor(data.gradient2);
     
     static_cast<CCMenu*>(this->getChildByID("main-layer")->getChildByID("color-mode-menu")->getChildByTag(data.mode))->updateLayout();
     updateLayout();
@@ -391,11 +399,11 @@ void ColorSetupPopup::initialSettings(){
 
 void ColorSetupPopup::onSwitchChannel(CCObject *sender){
     auto setupMenu = this->getChildByID("main-layer")->getChildByID("setup-menu");
-    data.color = static_cast<CCSprite*>(setupMenu->getChildByID("Static")->getChildByID("static-color")->getChildren()->objectAtIndex(0))->getColor();
-    data.gradient1 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByID("gradient-color-1")->getChildren()->objectAtIndex(0))->getColor();
-    data.gradient2 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByID("gradient-color-2")->getChildren()->objectAtIndex(0))->getColor();
+    data.color = static_cast<CCSprite*>(setupMenu->getChildByID("Static")->getChildByTag(0)->getChildByID("button")->getChildByID("sprite"))->getColor();
+    data.gradient1 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByTag(1)->getChildByID("button")->getChildByID("sprite"))->getColor();
+    data.gradient2 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByTag(2)->getChildByID("button")->getChildByID("sprite"))->getColor();
     // write settings
-    std::string settingKey = player + yesImNoob + gamemodetag[gamemode] + yesImNoob + channels[channel];
+    std::string settingKey = player + "-" + gamemodetag[gamemode] + "-" + channels[channel];
     Mod::get()->setSavedValue<matjson::Value>(settingKey, to_json(data));
 
     // toggle off the old channel toggler
@@ -404,18 +412,15 @@ void ColorSetupPopup::onSwitchChannel(CCObject *sender){
     static_cast<CCMenuItemToggler*>(this->getChildByID("main-layer")->getChildByID("color-mode-menu")->getChildByTag(data.mode)->getChildByID("toggler"))->toggle(false);
 
     // new channel tag
-    channel = static_cast<CCNode*>(sender)->getParent()->getTag();
-    // toggle on
-    //static_cast<CCMenuItemToggler*>(this->getChildByID("main-layer")->getChildByID("color-channel-menu")->getChildByTag(channel)->getChildByID("toggler"))->toggle(true);    
+    channel = static_cast<CCNode*>(sender)->getParent()->getTag();  
     // fetch new settings
-    settingKey = player + yesImNoob + gamemodetag[gamemode] + yesImNoob + channels[channel];
+    settingKey = player + "-" + gamemodetag[gamemode] + "-" + channels[channel];
     data = from_json(Mod::get()->getSavedValue<matjson::Value>(settingKey, defaultColorSetup));
 
-    //pretend the new mode button is clicked
+    // pretend the new mode button is clicked
     // toggle off the old chroma mode menu
     static_cast<CCMenuItemToggler*>(this->getChildByID("main-layer")->getChildByID("color-mode-menu")->getChildByTag(data.mode)->getChildByID("toggler"))->toggle(true);
     static_cast<CCMenu*>(this->getChildByID("main-layer")->getChildByID("color-mode-menu")->getChildByTag(data.mode))->updateLayout();
-    //onSwitchMode(sender = this->getChildByID("main-layer")->getChildByID("color-mode-menu")->getChildByTag(data.mode)->getChildByID("toggler"));
     // refresh
     initialSettings();
 }
@@ -458,14 +463,36 @@ void ColorSetupPopup::onPickColor(CCObject *sender){
 }
 
 void ColorSetupPopup::onApplyCommon(CCObject *sender){
-    //auto setupMenu = this->getChildByID("main-layer")->getChildByID("setup-menu");
-
-    //data.color = static_cast<CCSprite*>(setupMenu->getChildByID("Static")->getChildByID("static-color")->getChildren()->objectAtIndex(0))->getColor();
-    //data.gradient1 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByID("gradient-color-1")->getChildren()->objectAtIndex(0))->getColor();
-    //data.gradient2 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByID("gradient-color-2")->getChildren()->objectAtIndex(0))->getColor();
     // setup
     bool check = static_cast<CCMenuItemToggler*>(sender)->isToggled();
     Mod::get()->setSavedValue(player + "-common", check ? -1 : gamemode);
+}
+
+void ColorSetupPopup::onDesc(CCObject *sender){
+    FLAlertLayer::create(
+        "Apply to Common",
+        "Apply this color mode to All Gamemodes of this player.\nWill not merge options of other gamemodes,\nonly affect in-game visual effects.",
+        "OK")->show();
+}
+
+void ColorSetupPopup::onCopyColor(CCObject *sender){
+    auto source = static_cast<CCNode*>(sender)->getParent()->getChildByID("button")->getChildByID("sprite");
+    clipColor = static_cast<CCSprite*>(source)->getColor();
+    canPaste = true;
+}
+
+void ColorSetupPopup::onPasteColor(CCObject *sender){
+    if (canPaste){
+        auto target = static_cast<CCNode*>(sender)->getParent()->getChildByID("button")->getChildByID("sprite");
+        static_cast<CCSprite*>(target)->setColor(clipColor);
+    }
+    else{
+        FLAlertLayer::create(
+            "Cannot Paste",
+            "You did not ever copied a color and the clipboard is now empty!",
+            "Alright")->show();
+    }
+
 }
 
 bool ColorSetupPopup::init(int tag){
@@ -490,12 +517,12 @@ ColorSetupPopup * ColorSetupPopup::create(int tag){
 
 void ColorSetupPopup::onClose(CCObject *sender){
     auto setupMenu = this->getChildByID("main-layer")->getChildByID("setup-menu");
-    data.color = static_cast<CCSprite*>(setupMenu->getChildByID("Static")->getChildByID("static-color")->getChildren()->objectAtIndex(0))->getColor();
-    data.gradient1 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByID("gradient-color-1")->getChildren()->objectAtIndex(0))->getColor();
-    data.gradient2 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByID("gradient-color-2")->getChildren()->objectAtIndex(0))->getColor();
+    data.color = static_cast<CCSprite*>(setupMenu->getChildByID("Static")->getChildByTag(0)->getChildByID("button")->getChildByID("sprite"))->getColor();
+    data.gradient1 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByTag(1)->getChildByID("button")->getChildByID("sprite"))->getColor();
+    data.gradient2 = static_cast<CCSprite*>(setupMenu->getChildByID("Gradient")->getChildByTag(2)->getChildByID("button")->getChildByID("sprite"))->getColor();
     
     // write settings
-    std::string settingKey = player + yesImNoob + gamemodetag[gamemode] + (gamemode < 9 ? yesImNoob + channels[channel] : "");
+    std::string settingKey = player + "-" + gamemodetag[gamemode] + (gamemode < 9 ? "-" + channels[channel] : "");
     Mod::get()->setSavedValue<matjson::Value>(settingKey, to_json(data));
 
     Popup::onClose(sender);
