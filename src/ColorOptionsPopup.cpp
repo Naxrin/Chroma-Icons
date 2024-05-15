@@ -126,7 +126,7 @@ bool ColorOptionsPopup::setup(){
 
     addTextToggler(scroll->m_contentLayer,
         "Seperate Dual Mode Phase",
-        "set phase of P2 keeps 180 degrees away from phase of P1\nOtherwise the two players use the same phase",
+        "Set phase of P2 keeps 180 degrees away from phase of P1\nOtherwise the two players use the same phase",
         CCPoint(10.f, 110.f),
         5,
         menu_selector(ColorOptionsPopup::onSepDual),
@@ -146,7 +146,7 @@ bool ColorOptionsPopup::setup(){
 
     addTextToggler(scroll->m_contentLayer,
         "Seperate Glow Color Phase",
-        "Let cycle phase of Glow Color keeps 60 degrees lag.\nOtherwise Secondary Color aligns with Main Color",
+        "Set phase of Glow Color keeps 60 degrees lag.\nOtherwise Secondary Color aligns with Main Color",
         CCPoint(10.f, 10.f),
         7,
         menu_selector(ColorOptionsPopup::onSepGlow),
