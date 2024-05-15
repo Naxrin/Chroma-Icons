@@ -101,7 +101,7 @@ bool ColorOptionsPopup::setup(){
 
     addTextToggler(scroll->m_contentLayer,
         "Seperate Riders",
-        "The cube rider of ship/ufo/jetpack will follow the cube's own color setup.",
+        "The cube rider of ship/ufo/jetpack will follow Cube Mode's color.",
         CCPoint(10.f, 280.f),
         3,
         menu_selector(ColorOptionsPopup::onRyder),
@@ -126,7 +126,7 @@ bool ColorOptionsPopup::setup(){
 
     addTextToggler(scroll->m_contentLayer,
         "Seperate Dual Mode Phase",
-        "Let cycle phase of Player 2 keeps 180 degrees away from phase of Player 1\nOtherwise the two players use the same phase",
+        "set phase of P2 keeps 180 degrees away from phase of P1\nOtherwise the two players use the same phase",
         CCPoint(10.f, 110.f),
         5,
         menu_selector(ColorOptionsPopup::onSepDual),
@@ -136,7 +136,7 @@ bool ColorOptionsPopup::setup(){
 
     addTextToggler(scroll->m_contentLayer,
         "Seperate Secondary Color Phase",
-        "Let cycle phase of Secondary Color keeps 60 degrees lead.\nOtherwise Secondary Color aligns with Main Color",
+        "Set phase of Secondary Color keeps 60 degrees lead.\nOtherwise Secondary Color aligns with Main Color",
         CCPoint(10.f, 60.f),
         6,
         menu_selector(ColorOptionsPopup::onSepSecond),
@@ -167,6 +167,7 @@ bool ColorOptionsPopup::setup(){
     auto speedLabel = CCLabelBMFont::create("Varient Speed", "bigFont.fnt", 120.f, CCTextAlignment::kCCTextAlignmentLeft);
     speedLabel->setPosition(CCPoint(0.f, 50.f));
     speedLabel->setAnchorPoint(CCPoint(0.f, 0.5));
+    speedLabel->setWidth(360.f);
     speedLabel->setScale(0.5);
     speedMenu->addChild(speedLabel);
 
