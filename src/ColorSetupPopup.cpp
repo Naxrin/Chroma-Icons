@@ -334,7 +334,7 @@ bool ColorSetupPopup::setup() {
     addTextToggler(
         commonMenu,
         "Apply to Common",
-        CCPoint(5.f, 0.f),
+        CCPoint(10.f, 0.f),
         menu_selector(ColorSetupPopup::onApplyCommon),
         10
     );
@@ -352,8 +352,8 @@ bool ColorSetupPopup::setup() {
     auto infoImg = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
     infoImg->setScale(0.5);
     auto infoBtn = CCMenuItemSpriteExtra::create(infoImg, this, menu_selector(ColorSetupPopup::onDesc));
-    infoBtn->setPosition(CCPoint(0.f, 20.f));
-    commonMenu->addChild(infoBtn);
+    infoBtn->setPosition(CCPoint(-5.f, 20.f));
+    commonMenu->getChildByTag(10)->addChild(infoBtn);
     commonMenu->updateLayout();
 
     
