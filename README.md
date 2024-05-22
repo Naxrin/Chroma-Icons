@@ -1,4 +1,4 @@
-![Image](https://github.com/Naxrin/Chroma-Icons/blob/main/title.png)  
+![Image](https://github.com/Naxrin/Chroma-Icons/blob/main/resources/title.png)  
 # Chroma Icons
 ### aka Icon Effect by Mega Hack v7 
 The 2.2 Geode port of **Mega Hack v7 Icon Effect**!
