@@ -1,8 +1,13 @@
+# 1.1.1
+Title image returns to about.md. This time it can display properly in Med Quality and mobiles.  
+But still unaccessable for webpage desc, I give in for now
+
 # 1.1.0
 ### Bugfix
 #### 1.Fix Robot/Spider Glow Not Working Bug!
 How stupid can it be to chroma dynamic icons?
 #### 2.Fix some visual bugs
+~~I removed the title image of about.md~~  
 Fixed the issue that the title image of about.md displays unproperly in Medium Quality mobiles.
 ### New stuffs
 #### 1.Chromatic icons in editor playtest!
