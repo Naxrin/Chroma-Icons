@@ -1,4 +1,4 @@
-![image](naxrin.rgb_icons/resources/title.png)
+![image](naxrin.rgb_icons/resources/title.png)  
 # <cy>Chroma Icons</c>
 The 2.2 Geode port of **Mega Hack v7 Icon Effect**!
 Besides original functions, this mod also has:  
