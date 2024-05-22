@@ -3,8 +3,7 @@
 #### 1.Fix Robot/Spider Glow Not Working Bug!
 How stupid can it be to chroma dynamic icons?
 #### 2.Fix some visual bugs
-~~I removed the title image of about.md~~  
-I fixed the issue that the title image of about.md displays unproperly in Medium Quality mobiles.
+Fixed the issue that the title image of about.md displays unproperly in Medium Quality mobiles.
 ### New stuffs
 #### 1.Chromatic icons in editor playtest!
 Considering capability issues, applying to editor playtest is optional, you can disable it individually.
