@@ -64,7 +64,7 @@ class $modify(NivelEditorLayer, LevelEditorLayer){
 		ColorItemPopup::create()->show();
 	}
 };
-
+#ifdef GEODE_IS_ANDROID
 class $modify(PoseLayer, PauseLayer){
 	static void onModify(auto& self) {
         self.setHookPriority("PauseLayer::create", -100);}
@@ -117,3 +117,4 @@ class $modify(PoseLayer, PauseLayer){
             ColorItemPopup::create()->show();
 	}
 };
+#endif
