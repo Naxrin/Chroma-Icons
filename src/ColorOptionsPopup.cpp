@@ -248,7 +248,7 @@ void ColorOptionsPopup::onSpeedTextChanged(const std::string& text){
 
 void ColorOptionsPopup::onDragSlider(CCObject *sender){
     auto speedMenu = static_cast<ScrollLayer*>(this->getChildByID("main-layer")->getChildByID("scroller"))->m_contentLayer->getChildByID("speed-menu");
-    auto value = static_cast<Slider*>(speedMenu->getChildByID("slider"))->getValue();
+    auto value = static_cast<Slider*>(speedMenu->getChildByID("slider"))->getThumb()->getValue();
     static_cast<TextInput*>(speedMenu->getChildByID("text-input"))->setString(cocos2d::CCString::createWithFormat("%.2f", static_cast<float>(value * 5))->getCString());
     
     Mod::get()->setSavedValue("speed", value * 5);
