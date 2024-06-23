@@ -1,3 +1,6 @@
+# 2.1.1-alpha.3
+Bump version to Geode3.0.0 @ GD2.206
+
 # 1.1.1
 Title image returns to about.md. This time it can display properly in Med Quality and mobiles.  
 But still unaccessable for webpage desc, I give in for now
