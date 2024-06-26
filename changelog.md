@@ -1,6 +1,5 @@
 # 2.1.1
-Pause Menu button returns 
-And Mega Hack now supports Icon Effects again so go purchase Mega Hack instead?
+Pause Menu button returns to Windows
 
 # 2.1.1-alpha.3
 Bump version to Geode3.0.0 @ GD2.206  
