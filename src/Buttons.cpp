@@ -116,4 +116,3 @@ class $modify(PoseLayer, PauseLayer){
 	            ColorItemPopup::create()->show();
 	}
 };
-#endif
