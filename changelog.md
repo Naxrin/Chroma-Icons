@@ -1,3 +1,7 @@
+# 2.1.1
+Pause Menu button returns 
+And Mega Hack now supports Icon Effects again so go purchase Mega Hack instead?
+
 # 2.1.1-alpha.3
 Bump version to Geode3.0.0 @ GD2.206  
 For now Pause Menu button doesn't support Windows (I know that's stupid but I got no way)  
