@@ -64,19 +64,19 @@ class $modify(NivelEditorLayer, LevelEditorLayer){
 		ColorItemPopup::create()->show();
 	}
 };
-#ifdef GEODE_IS_ANDROID
+
 class $modify(PoseLayer, PauseLayer){
 	static void onModify(auto& self) {
-        self.setHookPriority("PauseLayer::create", -100);}
+        	self.setHookPriority("PauseLayer::customSetup", -100);}
 
-	static PauseLayer* create(bool p){
-		auto pl = PauseLayer::create(p);
+	void customSetup(){
+		PauseLayer::customSetup();
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
         //button
         auto img = CCSprite::create("rgbicon.png"_spr);
         img->setScale(0.6);
-        auto button = CCMenuItemSpriteExtra::create(img, pl, menu_selector(PoseLayer::onColorButton));//menu_selector(IconLayer::onColorButton)
+        auto button = CCMenuItemSpriteExtra::create(img, this, menu_selector(PoseLayer::onColorButton));//menu_selector(IconLayer::onColorButton)
         button->setID("icon-chroma-button");
 
         auto chromaMenu = CCMenu::create();
@@ -84,7 +84,7 @@ class $modify(PoseLayer, PauseLayer){
         chromaMenu->addChild(button);
         chromaMenu->updateLayout();
 
-        auto bp = pl->getChildByID("better-pause-node");
+        auto bp = this->getChildByID("better-pause-node");
         if (bp){
             button->setPosition(CCPoint(winSize.width-30.f, winSize.height-30.f));
             bp->addChild(chromaMenu);
@@ -92,29 +92,28 @@ class $modify(PoseLayer, PauseLayer){
         else
         {
             button->setPosition(CCPoint(winSize.width-30.f, 30.f));
-            pl->addChild(chromaMenu);
+            this->addChild(chromaMenu);
         }
             
-		return pl;
 	}
 
 	void onColorButton(CCObject *){
-        auto play = PlayLayer::get()->m_level;
-        log::debug("{}", play);
-        if (Mod::get()->getSavedValue<bool>("Notify", true) && play->m_demonDifficulty == 6 && !play->isPlatformer()){
-            Mod::get()->setSavedValue("Notify", false);
-            geode::createQuickPopup(
-                "Notification",
-                "It seems like you are playing an extreme demon, perhaps even a list demon. Thanks for using this cool mod though, I have to notice you that, regarding Pointercrate's policy, <cy>despite time-varient player color is allowed, changing the player color in halfway run of a list demon</c> <cr>will NOT be approved</c> <cy>for submission.</c> If list points is one of the reasons you are here, you are suggested not to access this mod menu now!",
-                "Quit", "Continue", 420,
-                [](auto, bool btn2) {
-                    if (btn2) { ColorItemPopup::create()->show(); }
-                }
-            );//->show()
-
-        }
-        else
-            ColorItemPopup::create()->show();
+	        auto play = PlayLayer::get()->m_level;
+	        log::debug("{}", play);
+	        if (Mod::get()->getSavedValue<bool>("Notify", true) && play->m_demonDifficulty == 6 && !play->isPlatformer()){
+	            Mod::get()->setSavedValue("Notify", false);
+	            geode::createQuickPopup(
+	                "Notification",
+	                "It seems like you are playing an extreme demon, perhaps even a list demon. Thanks for using this cool mod though, I have to notice you that, regarding Pointercrate's policy, <cy>despite time-varient player color is allowed, changing the player color in halfway run of a list demon</c> <cr>will NOT be approved</c> <cy>for submission.</c> If list points is one of the reasons you are here, you are suggested not to access this mod menu now!",
+	                "Quit", "Continue", 420,
+	                [](auto, bool btn2) {
+	                    if (btn2) { ColorItemPopup::create()->show(); }
+	                }
+	            );//->show()
+	
+	        }
+	        else
+	            ColorItemPopup::create()->show();
 	}
 };
 #endif
