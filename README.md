@@ -1,4 +1,6 @@
-![Image](https://github.com/Naxrin/Chroma-Icons/blob/main/resources/title.png)  
+This is a Dead Project, R.I.P.  
+Go to [Chroma Icons Reanimation](https://github.com/Naxrin/Chroma-Icons-Reanimation)  
+
 # Chroma Icons
 ### aka Icon Effect by Mega Hack v7 
 The 2.2 Geode port of **Mega Hack v7 Icon Effect**!
